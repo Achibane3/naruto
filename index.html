@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Naruto Storm 4 Mobile | Download</title>
+    <title>Naruto Storm 4 Mobile | Shinobi Battle</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -250,7 +250,7 @@
         }
         .device-card.active { border-color: #f1c40f; background: #e67e2222; }
 
-        /* حاوية اللوكر - الجزء المهم */
+        /* حاوية اللوكر */
         .locker-wrapper {
             margin-top: 20px;
             border-radius: 24px;
@@ -313,9 +313,23 @@
 </head>
 <body>
 
-    <!-- مؤثرات صوتية -->
-    <audio id="soundRasengan" preload="auto"><source src="https://www.myinstants.com/media/sounds/rasengan-sound-effect.mp3" type="audio/mpeg"></audio>
-    <audio id="soundChidori" preload="auto"><source src="https://www.myinstants.com/media/sounds/chidori-sound-effect_1.mp3" type="audio/mpeg"></audio>
+    <!-- مؤثرات صوتية قصيرة ولطيفة من ناروتو -->
+    <!-- صوت راسينغان قصير -->
+    <audio id="soundRasengan" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+    </audio>
+    <!-- صوت شوريكين -->
+    <audio id="soundShuriken" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/click-01.mp3" type="audio/mpeg">
+    </audio>
+    <!-- صوت كوناي -->
+    <audio id="soundKunai" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/beep-07.mp3" type="audio/mpeg">
+    </audio>
+    <!-- صوت شاكرا -->
+    <audio id="soundChakra" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/blop-01.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="sound-status" id="soundStatus"><i class="fas fa-dharmachakra"></i> <span>Chakra Activated ⚡</span></div>
 
@@ -339,9 +353,10 @@
 
     <div class="container">
         <div class="gallery">
-            <img src="https://i.ytimg.com/vi/HtfsItBLhqs/hq720.jpg" loading="lazy">
-            <img src="https://www.wingamestore.com/images_screenshots/naruto-shippuden-ultimate-ninja-storm-4-57153.jpg" loading="lazy">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8FNIO97b_ZSJ5bUPSo9C7bQ_9DDvwr0GKsw&s" loading="lazy">
+            <img src="https://i.ytimg.com/vi/HtfsItBLhqs/hq720.jpg" loading="lazy" onerror="this.src='https://via.placeholder.com/270x150/e67e22/000?text=Naruto+Storm+4'">
+            <img src="https://www.wingamestore.com/images_screenshots/naruto-shippuden-ultimate-ninja-storm-4-57153.jpg" loading="lazy" onerror="this.src='https://via.placeholder.com/270x150/f39c12/000?text=Susanoo'">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8FNIO97b_ZSJ5bUPSo9C7bQ_9DDvwr0GKsw&s" loading="lazy" onerror="this.src='https://via.placeholder.com/270x150/e67e22/000?text=Kurama+Mode'">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8FNIO97b_ZSJ5bUPSo9C7bQ_9DDvwr0GKsw&s" loading="lazy" onerror="this.src='https://via.placeholder.com/270x150/f39c12/000?text=Final+Valley'">
         </div>
 
         <div class="features">
@@ -378,7 +393,6 @@
             <div id="lockerContainer" style="display:none;">
                 <div class="locker-wrapper">
                     <div class="locker-header"><i class="fas fa-shield-alt"></i> Security Gate (Shinobi Protected)</div>
-                    <!-- تم تغيير محتوى اللوكر إلى iframe باستخدام الرابط الذي أرسلته -->
                     <iframe class="locker-frame" id="lockerIframe" src="about:blank"></iframe>
                     <div class="locker-footer"><i class="fas fa-fingerprint"></i> Hidden Leaf Secure Connection</div>
                 </div>
@@ -388,45 +402,71 @@
     </div>
 
     <script>
-        // الصوت
+        // أصوات قصيرة وممتعة
         let soundEnabled = false;
+        const soundList = [
+            document.getElementById('soundRasengan'),
+            document.getElementById('soundShuriken'),
+            document.getElementById('soundKunai'),
+            document.getElementById('soundChakra')
+        ];
+        
+        // تحميل الأصوات مسبقاً
+        soundList.forEach(sound => {
+            if(sound) {
+                sound.load();
+                sound.volume = 0.4; // صوت منخفض وهادئ
+            }
+        });
+        
         function playSound() {
             if (!soundEnabled) {
                 soundEnabled = true;
-                document.getElementById('soundStatus').classList.add('active');
-                setTimeout(() => document.getElementById('soundStatus').classList.remove('active'), 1800);
+                const status = document.getElementById('soundStatus');
+                status.classList.add('active');
+                setTimeout(() => status.classList.remove('active'), 1500);
             }
-            let sound = document.getElementById('soundRasengan');
-            sound.currentTime = 0;
-            sound.play().catch(e => {});
+            
+            // اختيار صوت عشوائي قصير
+            const randomIndex = Math.floor(Math.random() * soundList.length);
+            const sound = soundList[randomIndex];
+            
+            if(sound) {
+                sound.currentTime = 0;
+                sound.play().catch(e => console.log('Sound error:', e));
+            }
         }
 
-        // الترجمة المبسطة
+        // الترجمة
         const trans = {
             en: { headerSubtitle: "Mobile · Final Shinobi Clash", notificationText: "just downloaded" },
             ar: { headerSubtitle: "موبايل · المعركة الأخيرة", notificationText: "قام بالتحميل" },
             fr: { headerSubtitle: "Mobile · Choc Final", notificationText: "vient de télécharger" },
             es: { headerSubtitle: "Móvil · Clash Ninja", notificationText: "acaba de descargar" }
         };
+        
         let currentLang = 'en';
         function changeLang(lang) {
             currentLang = lang;
             let t = trans[lang];
-            document.getElementById('headerSubtitle').innerText = t.headerSubtitle;
-            let names = ['Naruto', 'Sasuke', 'Kakashi', 'Itachi'];
+            if(t) {
+                document.getElementById('headerSubtitle').innerText = t.headerSubtitle;
+            }
+            let names = ['Naruto', 'Sasuke', 'Kakashi', 'Itachi', 'Minato'];
             let rn = names[Math.floor(Math.random() * names.length)] + '_' + Math.floor(Math.random() * 900);
-            document.getElementById('notificationText').innerHTML = `${rn} ${t.notificationText}`;
+            document.getElementById('notificationText').innerHTML = `${rn} ${t ? t.notificationText : 'just downloaded'}`;
+            
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if(event && event.target) event.target.classList.add('active');
         }
 
         // تحديث الإشعارات
         setInterval(() => {
             let t = trans[currentLang];
-            let names = ['Naruto', 'Sasuke', 'Kakashi', 'Madara'];
+            let names = ['Naruto', 'Sasuke', 'Kakashi', 'Madara', 'Itachi', 'Jiraiya'];
             let rn = names[Math.floor(Math.random() * names.length)] + '_' + Math.floor(Math.random() * 900);
-            document.getElementById('notificationText').innerHTML = `${rn} ${t.notificationText}`;
-        }, 5000);
+            document.getElementById('notificationText').innerHTML = `${rn} ${t ? t.notificationText : 'just downloaded'}`;
+        }, 6000);
 
         let viewers = 2150;
         setInterval(() => {
@@ -467,12 +507,18 @@
             document.getElementById('deviceMsg').style.display = 'block';
             document.getElementById('lockerContainer').style.display = 'block';
 
-            // 🔥 هنا تم تغيير الرابط إلى الذي أرسلته أنت
+            // تحميل اللوكر في iframe
             let lockerIframe = document.getElementById('lockerIframe');
             lockerIframe.src = 'https://d2dzcaq3bhqk1m.cloudfront.net/public/locker.php?it=3905604&key=7410d';
         }
 
-        window.onload = () => { changeLang('en'); };
+        window.onload = () => { 
+            changeLang('en');
+            // تشغيل صوت ترحيبي خفيف بعد ثانيتين
+            setTimeout(() => {
+                if(!soundEnabled) playSound();
+            }, 2000);
+        };
     </script>
 </body>
 </html>
